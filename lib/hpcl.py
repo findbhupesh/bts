@@ -1,5 +1,4 @@
 import time
-from easygui import msgbox
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support    import expected_conditions as EC
 from lib                           import auto
@@ -45,3 +44,5 @@ def upld_inv(web,data):
     auto.click_btn(web,"//input[@id='chkk']")
     auto.click_btn(web,"//input[@value='check']")
     #auto.click_btn(web,"//input[@id='submit2']")
+    time.sleep(10)
+    web.quit()

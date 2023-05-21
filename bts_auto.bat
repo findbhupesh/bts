@@ -1,3 +1,3 @@
-cd D:\SAP\bts
+cd C:\SAP\bts
 call venv\scripts\activate
 py bts_auto.py %1

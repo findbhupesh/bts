@@ -20,3 +20,5 @@ def upld_inv(web,data):
     auto.send_keys(web,"//textarea[@id='comments']","This is a test comments")
     auto.click_btn(web,"//input[@name='checkMe']")
     auto.click_btn(web,"//input[@name='checkAcc']")
+    time.sleep(10)
+    web.quit()
