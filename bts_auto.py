@@ -22,3 +22,7 @@ match url_code:
         hpcl.upld_inv(web,data)
     case 'IOCL':
         iocl.upld_inv(web,data)
+
+time.sleep(10)
+web.close()
+web.quit()
