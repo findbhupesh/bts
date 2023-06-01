@@ -1,7 +1,8 @@
 import sys,time,json,os
-from selenium                       import webdriver
-from selenium.webdriver.support.ui  import WebDriverWait
-from lib                            import bpcl,hpcl,iocl,auto
+from selenium                           import webdriver
+from selenium.webdriver.support.wait    import WebDriverWait
+from lib.auto                           import web
+from lib.btsp                           import bpcl,hpcl,iocl
 
 files = os.listdir("files/")
 inp_file = sys.argv[1]+'.json'
@@ -9,20 +10,26 @@ for file in files:
     if inp_file in file:
         json_file = file
 
-web = auto.open_browser()
-web.implicitly_wait(15)
+cweb = web()
+cweb.con.implicitly_wait(15)
 file = open('files/'+json_file)
 data = json.load(file)
 url_code = data['VBUND']
 
 match url_code:
     case 'BPCL':
-        bpcl.upld_inv(web,data)
+        inst = bpcl(cweb)
+        inst.upld_inv(data)
     case 'HPCL':
-        hpcl.upld_inv(web,data)
+        inst = hpcl(cweb)
+        inst.open_url(data)
+        inst.upld_inv(data)
+        inst.prnt_inv(data)
+        
     case 'IOCL':
-        iocl.upld_inv(web,data)
+        inst = iocl(cweb)
+        inst.upld_inv(data)
 
-time.sleep(10)
-web.close()
-web.quit()
+# time.sleep(10)
+# web.close()
+# web.quit()
