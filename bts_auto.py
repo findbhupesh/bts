@@ -19,15 +19,17 @@ url_code = data['VBUND']
 match url_code:
     case 'BPCL':
         inst = bpcl(cweb)
+        inst.do_login(data)
         inst.upld_inv(data)
     case 'HPCL':
         inst = hpcl(cweb)
-        inst.open_url(data)
+        inst.do_login(data)
         inst.upld_inv(data)
         inst.prnt_inv(data)
         
     case 'IOCL':
         inst = iocl(cweb)
+        inst.do_login(data)
         inst.upld_inv(data)
 
 # time.sleep(10)
