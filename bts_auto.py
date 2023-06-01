@@ -4,7 +4,7 @@ from selenium.webdriver.support.wait    import WebDriverWait
 from lib.auto                           import web
 from lib.btsp                           import bpcl,hpcl,iocl
 
-files = os.listdir("files/")
+files = os.listdir("inp/")
 inp_file = sys.argv[1]+'.json'
 for file in files:
     if inp_file in file:
@@ -12,7 +12,7 @@ for file in files:
 
 cweb = web()
 cweb.con.implicitly_wait(15)
-file = open('files/'+json_file)
+file = open('inp/'+json_file)
 data = json.load(file)
 url_code = data['VBUND']
 

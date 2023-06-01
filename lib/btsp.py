@@ -85,7 +85,7 @@ class hpcl:
         wait.until(EC.number_of_windows_to_be(2))
         wndw = self.con.window_handles[1]
         self.con.switch_to.window(wndw)
-        file_name = 'files/'+data['VBUND']+'_BTSPRINT_'+data['XBLNR']+'.pdf'
+        file_name = 'out/'+data['VBUND']+'_BTSPRINT_'+data['XBLNR']+'.pdf'
         self.web.webpg_pdf(param=file_name)
         self.web.print_pdf(param=file_name)
                  

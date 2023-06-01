@@ -47,7 +47,7 @@ class web():
                 return i + 2
             
     def save_image(self,*args, **kwargs):
-        self.con.save_screenshot("C:\\SAP\\bts\\files\\screenshot0.png")
+        self.con.save_screenshot("C:\\SAP\\bts\\out\\screenshot0.png")
         
     def webpg_pdf(self,*args, **kwargs):
         print_options = PrintOptions()
@@ -61,5 +61,5 @@ class web():
             f.write(base64.b64decode(pdf))
             
     def print_pdf(self,*args, **kwargs):
-        os.system('.\\drivers\\PDFtoPrinter.exe '+kwargs['param'])
+        os.system('.\\bin\\PDFtoPrinter.exe '+kwargs['param'])
 
