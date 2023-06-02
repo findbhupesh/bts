@@ -10,6 +10,10 @@ for file in files:
     if inp_file in file:
         json_file = file
 
+cfg_file = 'cfg/pass.json'
+file = open(cfg_file)
+pswd = json.load(file)
+
 cweb = web()
 cweb.con.implicitly_wait(15)
 file = open('inp/'+json_file)
@@ -19,18 +23,19 @@ url_code = data['VBUND']
 match url_code:
     case 'BPCL':
         inst = bpcl(cweb)
-        inst.do_login(data)
+        inst.do_login(pswd['BPCL'])
         inst.upld_inv(data)
     case 'HPCL':
         inst = hpcl(cweb)
-        inst.do_login(data)
+        inst.do_login(pswd['HPCL'])
         inst.upld_inv(data)
         inst.prnt_inv(data)
         
     case 'IOCL':
         inst = iocl(cweb)
-        inst.do_login(data)
+        inst.do_login(pswd['IOCL'])
         inst.upld_inv(data)
+        inst.prnt_inv(data)
 
 # time.sleep(10)
 # web.close()
