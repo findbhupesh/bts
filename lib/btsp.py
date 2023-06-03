@@ -31,6 +31,10 @@ class bpcl:
         self.web.click_btn(xpath="//button[contains(text(),'Proceed')]")
         self.web.send_keys(xpath="//input[@id='chooseFile']",param=data['XFILE'])
         self.web.click_btn(xpath="//input[@id='deliveryCheckBox']")
+        #self.web.click_btn(xpath="//input[@id='btnSubmit']")
+        #message = self.web.read_text(xpath="//p[text(),'We acknowledge the receipt of your Invoice No']")
+        #self.web.click_btn(xpath="//button[@id='btn_successClose']")
+        #return self.web.get_docno(param=message)
 
 class hpcl:
     def __init__(self,web):
@@ -68,6 +72,9 @@ class hpcl:
         self.web.click_btn(xpath="//input[@id='chkk']")
         self.web.click_btn(xpath="//input[@value='check']")
         #self.web.click_btn("//input[@id='submit2']")
+        # self.web.acc_alert()
+        # self.web.acc_alert()
+        # self.web.acc_alert()
 
     def prnt_inv(self,data):
         wait = WebDriverWait(self.con, 10)
@@ -110,9 +117,11 @@ class iocl():
         self.web.send_keys(xpath="//textarea[@id='comments']",param=data['REMRK'])
         self.web.click_btn(xpath="//input[@name='checkMe']")
         self.web.click_btn(xpath="//input[@name='checkAcc']")
-
-    def prnt_inv(self,data):
-        wait = WebDriverWait(self.con, 10)
+        # self.web.click_btn(xpath="//input[@id='submitbutton']")
+        # message = self.web.read_text(xpath="//span[contains(text(),'Details saved successfully')]") 
+        # return self.web.get_docno(param=message)
+    
+    def bill_rep(self,data):
         self.web.click_btn(xpath="//b[contains(text(),'Period Wise Report')]") 
         st_date = datetime.strptime(data['FKDAT'],"%Y-%m-%d")
         en_date = st_date + timedelta(days=5)
@@ -132,12 +141,15 @@ class iocl():
         value = self.web.read_cell(xpath="//table[2]",param=param)
         value = value[0:22]
         print(value)
+
+    def prnt_inv(self,data):
+        wait = WebDriverWait(self.con, 10)
         self.web.click_btn(xpath="//b[contains(text(),'Print Bill Entry Details')]")
-        self.web.send_keys(xpath="//input[@id='bill_entry_no']",param=value)
+        self.web.send_keys(xpath="//input[@id='bill_entry_no']",param=data['BTSNO']
         self.web.click_btn(xpath="//input[@value='DISPLAY PDF']")
         wait.until(EC.number_of_windows_to_be(2))
         wndw = self.con.window_handles[1]
         self.con.switch_to.window(wndw)
         self.con.close()
         file_name = 'out/'+value+'.pdf'
-        self.web.print_pdf(param=file_name)
+        #self.web.print_pdf(param=file_name)

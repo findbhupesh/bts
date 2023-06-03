@@ -78,7 +78,20 @@ class web():
             pass
         return value
     
+    def acc_alert(self,*args, **kwargs):
+        try :
+            self.con.switch_to.alert.accept()
+        except:
+            pass
 
+    def get_docno(self,*args, **kwargs):
+        doc_no = ''
+        for word in kwargs['param']:
+            if word.isdigit():
+                doc_no = word
+                break
+        return doc_no
+            
     def set_caldt(self,*args, **kwargs):
         wait = WebDriverWait(self.con,10)
         self.click_btn(xpath=kwargs['xpath'])
