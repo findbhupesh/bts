@@ -7,12 +7,14 @@ from selenium.webdriver.support                   import expected_conditions as 
 from selenium.webdriver.common.print_page_options import PrintOptions
 
 import os,base64,calendar
-class web():
+class web:
     def __init__(self):
         prefs = {"download.default_directory":"C:\\SAP\\bts\\out\\"}
         option = webdriver.ChromeOptions()    
         option.add_experimental_option("prefs", prefs)
         option.add_experimental_option("detach",True)
+        option.add_argument('--headless')
+        option.add_argument('log-level=3')
         option.add_argument("--start-maximized")
         option.add_extension("cfg\\chropath_6_1_12_0.crx")
         self.con = webdriver.Chrome(options=option)
@@ -72,10 +74,17 @@ class web():
 
     def read_text(self,*args, **kwargs):
         value = ''
-        try:
-            value = self.con.find_element(By.XPATH,kwargs['xpath']).text
-        except:
-            pass
+        if 'xpath' in kwargs:
+            try:
+                value = self.con.find_element(By.XPATH,kwargs['xpath']).text
+            except:
+                pass
+        if 'elmnt' in kwargs:
+            try:
+                value = kwargs['elmnt'].text
+            except:
+                pass
+
         return value
     
     def acc_alert(self,*args, **kwargs):
@@ -91,7 +100,15 @@ class web():
                 doc_no = word
                 break
         return doc_no
-            
+    def list_elmt(self,*args, **kwargs):
+        elmts = None
+        try:
+            elmts = self.con.find_elements(By.XPATH,kwargs['xpath'])
+        except:
+            pass
+        return elmts
+     
+              
     def set_caldt(self,*args, **kwargs):
         wait = WebDriverWait(self.con,10)
         self.click_btn(xpath=kwargs['xpath'])
@@ -145,7 +162,7 @@ class web():
                 colno = index
                 break
         if colno > 0:
-            print("Search Column : "+ str(colno))
+           #print("Search Column : "+ str(colno))
             rows = self.con.find_elements(By.XPATH,kwargs['xpath']+"//tbody/tr")
         else:
             return
@@ -156,14 +173,14 @@ class web():
             if xdata['svalue'] in value:
                 rowno = index
                 break
-        print("Row Number : "+ str(rowno))
+        #print("Row Number : "+ str(rowno))
         colno = 0
         for i in range(len(tcols)):
             index = i + 1
             if xdata['srccol'] in tcols[i].text:
                 colno = index
                 break
-        print("Found Column : "+ str(colno))
+        #print("Found Column : "+ str(colno))
         match xdata['action']:
             case "click":
                 self.click_btn(xpath="//tbody/tr["+str(rowno)+"]/td["+str(colno)+"]/a[1]/img[1]")

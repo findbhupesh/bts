@@ -139,17 +139,24 @@ class iocl():
         param["srccol"] = "Bill Entry No. & Date"
         param['action'] = "text"
         value = self.web.read_cell(xpath="//table[2]",param=param)
-        value = value[0:22]
-        print(value)
+        value = value[0:22].rstrip()
+        return value
 
     def prnt_inv(self,data):
         wait = WebDriverWait(self.con, 10)
+        btsno = ''
+        if data['BTSNO'] == None:
+            btsno = self.bill_rep(data)
+        else:
+            btsno = data['BTSNO']
+
         self.web.click_btn(xpath="//b[contains(text(),'Print Bill Entry Details')]")
-        self.web.send_keys(xpath="//input[@id='bill_entry_no']",param=data['BTSNO']
+        self.web.send_keys(xpath="//input[@id='bill_entry_no']",param=btsno)    
         self.web.click_btn(xpath="//input[@value='DISPLAY PDF']")
         wait.until(EC.number_of_windows_to_be(2))
         wndw = self.con.window_handles[1]
         self.con.switch_to.window(wndw)
+        time.sleep(2)
         self.con.close()
-        file_name = 'out/'+value+'.pdf'
+        file_name = 'out/'+btsno+'.pdf'
         #self.web.print_pdf(param=file_name)
