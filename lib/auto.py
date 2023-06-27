@@ -13,7 +13,7 @@ class web:
         option = webdriver.ChromeOptions()    
         option.add_experimental_option("prefs", prefs)
         option.add_experimental_option("detach",True)
-        option.add_argument('--headless')
+    #    option.add_argument('--headless')
         option.add_argument('log-level=3')
         option.add_argument("--start-maximized")
         option.add_extension("cfg\\chropath_6_1_12_0.crx")
