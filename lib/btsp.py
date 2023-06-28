@@ -1,7 +1,8 @@
-import time,calendar,logging as log
+import sys,time,calendar,logging as log
 from datetime                           import datetime,date,timedelta
 from selenium.webdriver.support.wait    import WebDriverWait
 from selenium.webdriver.support         import expected_conditions as EC
+
 log.basicConfig(filename='out/logging.log', encoding='utf-8', level=log.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 class bpcl:
     def __init__(self,web):
@@ -13,7 +14,11 @@ class bpcl:
         self.con.get(data['url'])
         self.web.send_keys(xpath="//input[@id='principal']",param=data['usr'])
         self.web.send_keys(xpath="//input[@id='input_password']",param=data['pwd'])
-        time.sleep(15)
+        self.web.save_shot(xpath="//img[@id='captcha']")
+        code = self.web.read_capt(param="inp/captcha.png").upper()
+        print(code)
+        self.web.send_keys(xpath="//input[@id='captcha']",param=code)
+        #time.sleep(5)
         self.web.click_btn(xpath="//input[@value='Login']")
         
     def upld_inv(self,data):
@@ -46,7 +51,11 @@ class hpcl:
         self.con.get(data['url'])
         self.web.send_keys(xpath="//input[@id='username']",param=data['usr'])
         self.web.send_keys(xpath="//input[@id='password']",param=data['pwd'])
-        time.sleep(15)
+        self.web.save_shot(xpath="//img[@id='captcha']")
+        code = self.web.read_capt(param="inp/captcha.png")
+        print(code)
+        self.web.send_keys(xpath="//input[@id='getcap']",param=code)
+        #time.sleep(5)
         self.web.click_btn(xpath="//input[@id='submit1']")
 
     def upld_inv(self,data):
@@ -101,7 +110,20 @@ class iocl():
         self.con.get(data['url'])
         self.web.send_keys(xpath="//input[@id='txtuserid']",param=data['usr'])
         self.web.send_keys(xpath="//input[@id='txtpwd']",param=data['pwd'])
-        time.sleep(15)
+        self.web.save_shot(xpath="//img[@id='captchaImage']")
+        text = self.web.read_tocr(param="inp/captcha.png")
+        code = self.web.read_capt(param="inp/captcha.png")
+        data = ""
+        for x in code:
+            if 'Alphabets' in text:
+                if x.isalpha():
+                    data = data + x
+            else:
+                if x.isdigit():
+                    data = data + x
+        print(data)
+        self.web.send_keys(xpath="//input[@id='captcha']",param=data)
+        time.sleep(5)
         self.web.click_btn(xpath="//button[1]")
         
         

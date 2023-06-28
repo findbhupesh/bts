@@ -1,12 +1,13 @@
 from datetime                                     import datetime
 from selenium                                     import webdriver
+from twocaptcha                                   import TwoCaptcha
 from selenium.webdriver.common.by                 import By
 from selenium.webdriver.support.ui                import Select
 from selenium.webdriver.support.wait              import WebDriverWait
 from selenium.webdriver.support                   import expected_conditions as EC
 from selenium.webdriver.common.print_page_options import PrintOptions
 
-import os,base64,calendar
+import os,sys,base64,calendar,easyocr
 class web:
     def __init__(self):
         prefs = {"download.default_directory":"C:\\SAP\\bts\\out\\"}
@@ -57,7 +58,9 @@ class web:
             self.con.save_screenshot(kwargs['param'])
         else:
             print("Filename not given")
-        
+    def save_shot(self,*args, **kwargs):
+        self.con.find_element(By.XPATH,kwargs['xpath']).screenshot("inp/captcha.png")
+
     def webpg_pdf(self,*args, **kwargs):
         print_options = PrintOptions()
         print_options.page_height = 29.70
@@ -186,4 +189,23 @@ class web:
                 self.click_btn(xpath="//tbody/tr["+str(rowno)+"]/td["+str(colno)+"]/a[1]/img[1]")
             case "text":
                 return self.read_text(xpath=kwargs['xpath']+"/tbody/tr["+str(rowno)+"]/td["+str(colno)+"]")
+    def read_attr(self,*args, **kwargs):
+        elmt = self.con.find_element(By.XPATH,kwargs['xpath'])
+        return elmt.get_attribute(kwargs['attr'])
+    
+    def read_capt(self,*args, **kwargs):
+        solver = TwoCaptcha('94c83e9b7f077c2fa8111d883a914f27')
+        try:
+            result = solver.normal(kwargs['param'])
+        except Exception as e:
+            sys.exit(e)
+        else:
+            print(result)
+           #sys.exit('solved: ' + str(result))
+        return result["code"]    
 
+    def read_tocr(self, *args, **kwargs):
+        reader = easyocr.Reader(['en'])
+        result = reader.readtext(kwargs['param'], detail = 0)
+        print(result)
+        return result[0]
