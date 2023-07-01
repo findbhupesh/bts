@@ -2,8 +2,8 @@
     "BPCL": {
         "url": "https://econnect.bpcl.in/selfservice-ext/pub/login.html",
         "usr": "VC157213",
-        "pwd": "Baldist@2223",
-		"tst": true
+        "pwd": "Baldist#2324",
+		"tst": false
     },
     "HPCL": {
         "url": "https://bills.hpcl.co.in/Vendor/index.jsp",

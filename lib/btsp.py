@@ -13,11 +13,11 @@ class bpcl:
         self.con.get(data['url'])
         self.web.send_keys(xpath="//input[@id='principal']",param=data['usr'])
         self.web.send_keys(xpath="//input[@id='input_password']",param=data['pwd'])
-        self.web.save_shot(xpath="//img[@id='captcha']")
-        code = self.web.read_capt(param="inp/captcha.png").upper()
-        print(code)
-        self.web.send_keys(xpath="//input[@id='captcha']",param=code)
-        #time.sleep(5)
+        #self.web.save_shot(xpath="//img[@id='captcha']")
+        #code = self.web.read_capt(param="inp/captcha.png").upper()
+        #print(code)
+        #self.web.send_keys(xpath="//input[@id='captcha']",param=code)
+        time.sleep(15)
         self.web.click_btn(xpath="//input[@value='Login']")
         
     def upld_inv(self,data):
@@ -36,11 +36,27 @@ class bpcl:
         self.web.send_keys(xpath="//input[@id='chooseFile']",param=data['XFILE'])
         self.web.click_btn(xpath="//input[@id='deliveryCheckBox']")
         if not data['test']:
-            self.web.click_btn(xpath="//input[@id='btnSubmit']")
-            message = self.web.read_text(xpath="//p[text(),'We acknowledge the receipt of your Invoice No']")
+            self.web.click_btn(xpath="//button[text()='Submit']")
             self.web.click_btn(xpath="//button[@id='btn_successClose']")
-            return self.web.get_docno(param=message)
-
+        
+    def bill_rep(self,data):
+        wait = WebDriverWait(self.con, 10)
+        time.sleep(5)
+        self.web.click_btn(xpath="//div[text()='Report']")
+        self.web.click_btn(xpath="//a[text()='Vendor Invoice Status']")
+        wait.until(EC.number_of_windows_to_be(2))
+        wndw = self.con.window_handles[1]
+        self.con.switch_to.window(wndw)
+        self.web.click_btn(xpath="//input[@value='My Invoice']")
+        # time.sleep(5)
+        # self.con.get("https://econnect.bpcl.in/VendorInvoiceStatus/Vendor/InvoiceprocessingStatus")
+        self.web.send_keys(xpath="//input[@id='txtInvoiceRegNumber']",param=data['XBLNR'])
+        self.web.click_btn(xpath="//input[@id='btnSubmit']")
+        docno = self.web.read_text(xpath="(//tbody/tr[1]/td[1])[1]")
+        print(docno)
+        file_name = 'out/'+data['VBUND']+'_BTSNUMBR_'+data['XBLNR']+'.txt'
+        with open(file_name,'w') as outp:
+            outp.write(docno)
 class hpcl:
     def __init__(self,web):
         self.web = web
@@ -100,6 +116,7 @@ class hpcl:
         file_name = 'out/'+data['VBUND']+'_BTSPRINT_'+data['XBLNR']+'.pdf'
         self.web.webpg_pdf(param=file_name)
         self.web.print_pdf(param=file_name)
+
                  
 class iocl():
     def __init__(self,web):
