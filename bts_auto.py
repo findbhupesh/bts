@@ -39,8 +39,8 @@ match url_code:
         inst = iocl(cweb)
         inst.do_login(pswd['IOCL'])
         btsno = inst.upld_inv(data)
-        # data['BTSNO'] = btsno
-        # inst.prnt_inv(data)
+        data['BTSNO'] = btsno
+        inst.prnt_inv(data)
 
 time.sleep(20)
 cweb.con.quit()
