@@ -113,6 +113,11 @@ class hpcl:
         file_name = 'out/'+data['VBUND']+'_BTSPRINT_'+data['XBLNR']+'.pdf'
         self.web.webpg_pdf(param=file_name)
         self.web.print_pdf(param=file_name)
+    def save_bts(self,data):
+        btsno = ''
+        file_name = 'out/'+data['VBUND']+'_'+data['VBELN']+'_'+data['XBLNR']+'.txt'
+        with open(file_name,'w') as outp:
+            outp.write(btsno)
 
                  
 class iocl():
