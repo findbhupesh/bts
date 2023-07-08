@@ -2,7 +2,7 @@
     "BPCL": {
         "url": "https://econnect.bpcl.in/selfservice-ext/pub/login.html",
         "usr": "VC157213",
-        "pwd": "Baldist#2324",
+        "pwd": "Baldist$2324",
 		"tst": false
     },
     "HPCL": {
@@ -15,7 +15,7 @@
         "url": "https://associates.indianoil.co.in/BTS/vendor_login",
         "usr": "11921208",
         "pwd": "396968",
-		"tst": true
+		"tst": false
     }
 }
 
