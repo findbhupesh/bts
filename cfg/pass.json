@@ -6,9 +6,9 @@
 		"tst": false
     },
     "HPCL": {
-        "url": "https://bills.hpcl.co.in/Vendor/index.jsp",
-        "usr": "28084998",
-        "pwd": "balhpcl@18",
+        "url": "https://vss.hpcl.co.in/vss/login",
+        "usr": "50014694",
+        "pwd": "Bal2324@",
 		"tst": true
     },
     "IOCL": {

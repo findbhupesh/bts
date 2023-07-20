@@ -61,47 +61,30 @@ class hpcl:
         self.con = web.con
 
     def do_login(self,data):
-        wait = WebDriverWait(self.con, 10)
         self.con.get(data['url'])
-        self.web.send_keys(xpath="//input[@id='username']",param=data['usr'])
+        self.web.click_btn(xpath="//a[text()='Please click here to Login']")
+        self.web.send_keys(xpath="//input[@id='empno']",param=data['usr'])
         self.web.send_keys(xpath="//input[@id='password']",param=data['pwd'])
-        self.web.save_shot(xpath="//img[@id='captcha']")
-        code = self.web.read_capt(param="inp/captcha.png")
-        print(code)
-        self.web.send_keys(xpath="//input[@id='getcap']",param=code)
-        self.web.click_btn(xpath="//input[@id='submit1']")
+        self.web.click_btn(xpath="//button[@id='submitBtn']")
 
     def upld_inv(self,data):
-        self.con.get("https://bills.hpcl.co.in/Vendor/create_tx.jsp")
-        self.web.click_btn(xpath="//span[contains(@title,'Select Purchase Order')]")
-        self.web.send_keys(xpath="//input[@class='select2-search__field']",param=data['BSTNK'][:8])
-        self.web.click_btn(xpath="//li[contains(@id,'"+data['BSTNK'][:8]+"')]")
-        self.web.send_keys(xpath="//input[@id='bill_no']",param=data['XBLNR'])
-        self.web.set_caldt(xpath="//input[@id='bill_dt']",param=data['FKDAT'], ctype = "4")
-        self.web.send_keys(xpath="//input[@id='taxable_amt']",param=data['NETWR'])
-        self.web.send_keys(xpath="//input[@id='tax_amt']",param=data['MWSBK'])
-        self.web.send_keys(xpath="//input[@id='bill_amt']",param=data['WRBTR'])
-        self.web.click_btn(xpath="//span[@id='select2-locnnm-container']")
-        self.web.send_keys(xpath="//input[@class='select2-search__field']",param=data['ABLAD'])
-        self.web.click_btn(xpath="//li[contains(text(),'"+data['ABLAD']+"')]")
-        self.web.click_btn(xpath="//span[@id='select2-creator_mail-container']")
-        self.web.click_btn(xpath="//li[contains(@id,'"+data['SPNAM']+"')]")
-        self.web.send_keys(xpath="//input[@id='scan_page']",param=data['ZCOPY'])
-        self.web.send_keys(xpath="//input[@id='challan_no']",param=data['CHNUM'])
-        self.web.send_keys(xpath="//input[@id='digitalInvoiceFile']",param=data['XFILE'])
-        self.web.send_keys(xpath="//textarea[@id='creator_rem']",param=data['REMRK'])
-        self.web.click_btn(xpath="//input[@id='changeDefaultDisloc']")
-        self.web.click_btn(xpath="//input[@id='chkk']")
-        self.web.click_btn(xpath="//input[@value='check']")
+        self.con.get("https://vss.hpcl.co.in/vss/billsubmission")
+        self.web.send_keys(xpath="input[@id='poNumberSearch']",param=data['BSTNK'][:8])
+        self.web.selectkey(xpath="//select[@id='typeOfInvoice']",param=data["INVTY"])
+        self.web.send_keys(xpath="//input[@id='fileupload']",param=data['XFILE'])
+        self.web.selectkey(xpath="//select[@id='vendorGstin']",param=data["GSTIN"])
+        self.web.send_keys(xpath="input[@id='invoiceNumber']",param=data['BSTNK'][:8])
+        self.web.set_caldt(xpath="//input[@id='invoiceDate']",param=data['FKDAT'], ctype = "4")
+        self.web.send_keys(xpath="//input[@id='invoiceAmount']",param=data['WRBTR'])
+        self.web.selectkey(xpath="//select[@id='receivingPlant']",param=data['ABLAD'])
+        self.web.selectkey(xpath="//select[@id='processingPlant']",param=data['ABLAD'])
+        self.web.selectkey(xpath="//select[@id='paymentAccountNo']",param=data['BANKN'])        
         if not data['test']:
-            self.web.click_btn("//input[@id='submit2']")
-            self.web.acc_alert()
-            self.web.acc_alert()
-            self.web.acc_alert()
+            self.web.click_btn("//input[@id='submitInvoice']")
 
     def prnt_inv(self,data):
         wait = WebDriverWait(self.con, 10)
-        self.con.get("https://bills.hpcl.co.in/Vendor/mytxreport.jsp")
+        self.con.get("https://vss.hpcl.co.in/vss/submittedbills")
         param = {}
         param["valcol"] = "Invoice No."
         param["svalue"] = data['XBLNR']
@@ -146,7 +129,7 @@ class iocl():
         time.sleep(5)
         self.web.click_btn(xpath="//button[1]")
         
-        
+
     def upld_inv(self,data):
         self.web.click_btn(xpath="//a[@href='/BTS/billdetails.action']")
         self.web.selectkey(xpath="//select[@id='div_code']",param=data["SPNAM"])
