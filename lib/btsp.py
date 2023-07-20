@@ -36,7 +36,7 @@ class bpcl:
         self.web.click_btn(xpath="//input[@id='deliveryCheckBox']")
         if not data['test']:
             self.web.click_btn(xpath="//button[text()='Submit']")
-            self.web.click_btn(xpath="//button[@id='btn_successClose']")
+            
         
     def bill_rep(self,data):
         wait = WebDriverWait(self.con, 10)
@@ -54,6 +54,7 @@ class bpcl:
         file_name = 'out/'+data['VBUND']+'_'+data['VBELN']+'_'+data['XBLNR']+'.txt'
         with open(file_name,'w') as outp:
             outp.write(docno)
+            
 class hpcl:
     def __init__(self,web):
         self.web = web
@@ -161,7 +162,7 @@ class iocl():
         if not data['test']:
             self.web.click_btn(xpath="//input[@id='submitbutton']")
             message = self.web.read_text(xpath="//span[contains(text(),'Details saved successfully')]") 
-            self.web.click(xpath="span[@text()='Okay']")
+            self.web.click_btn(xpath="//span[@xpath='1' and text()='Okay']")
             return self.web.get_docno(param=message)
     
     def bill_rep(self,data):

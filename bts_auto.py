@@ -25,7 +25,7 @@ match url_code:
         data["test"] = pswd['BPCL']['tst']
         inst = bpcl(cweb)
         inst.do_login(pswd['BPCL'])
-        #inst.upld_inv(data)
+        inst.upld_inv(data)
         inst.bill_rep(data)
     case 'HPCL':
         data["test"] = pswd['HPCL']['tst']
