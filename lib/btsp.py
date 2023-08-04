@@ -150,9 +150,7 @@ class iocl():
         self.web.click_btn(xpath="//input[@name='checkAcc']")
         if not data['test']:
             self.web.click_btn(xpath="//input[@id='submitbutton']")
-            message = self.web.read_text(xpath="//span[contains(text(),'Details saved successfully')]") 
             self.web.click_btn(xpath="//span[text()='Okay']")
-            return self.web.get_docno(param=message)
     
     def bill_rep(self,data):
         self.web.click_btn(xpath="//b[contains(text(),'Period Wise Report')]") 
@@ -177,19 +175,13 @@ class iocl():
 
     def prnt_inv(self,data):
         wait = WebDriverWait(self.con, 10)
-        btsno = ''
-        if data['BTSNO'] == None:
-            btsno = self.bill_rep(data)
-        else:
-            btsno = data['BTSNO']
-
         self.web.click_btn(xpath="//b[contains(text(),'Print Bill Entry Details')]")
-        self.web.send_keys(xpath="//input[@id='bill_entry_no']",param=btsno)    
+        self.web.send_keys(xpath="//input[@id='bill_entry_no']",param=data['BTSNO'])    
         self.web.click_btn(xpath="//input[@value='DISPLAY PDF']")
         wait.until(EC.number_of_windows_to_be(2))
         wndw = self.con.window_handles[1]
         self.con.switch_to.window(wndw)
         time.sleep(2)
         self.con.close()
-        file_name = 'out/'+btsno+'.pdf'
+        file_name = 'out/'+data['BTSNO']+'.pdf'
         self.web.print_pdf(param=file_name)
