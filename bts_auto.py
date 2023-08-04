@@ -31,9 +31,10 @@ match url_code:
         data["test"] = pswd['HPCL']['tst']
         inst = hpcl(cweb)
         inst.do_login(pswd['HPCL'])
-        data['INVTY'] = 'EI'
-        inst.upld_inv(data)
-        inst.prnt_inv(data)
+        btsno = inst.upld_inv(data)
+        file_name = 'out/'+data['VBUND']+'_'+data['VBELN']+'_'+data['XBLNR']+'.txt'
+        with open(file_name,'w') as outp:
+            outp.write(btsno)
         
     case 'IOCL':
         data["test"] = pswd['IOCL']['tst']
@@ -46,5 +47,5 @@ match url_code:
         data['BTSNO'] = btsno
         inst.prnt_inv(data)
 
-time.sleep(20)
-cweb.con.quit()
+#time.sleep(20)
+#cweb.con.quit()

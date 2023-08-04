@@ -9,7 +9,7 @@
         "url": "https://vss.hpcl.co.in/vss/login",
         "usr": "50014694",
         "pwd": "Bal2324@",
-		"tst": true
+		"tst": false
     },
     "IOCL": {
         "url": "https://associates.indianoil.co.in/BTS/vendor_login",

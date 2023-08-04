@@ -74,14 +74,19 @@ class hpcl:
         time.sleep(2)
         self.web.click_btn(xpath="//ul[@id='ui-id-1']/li[1]/div[1]")
         time.sleep(2)
-        self.web.selectkey(xpath="//select[@id='typeOfInvoice']",param=data["INVTY"],option='value')
+        self.web.selectkey(xpath="//select[@id='typeOfInvoice']",param='DE',option='value')
         self.web.send_keys(xpath="//input[@id='fileupload']",param=data['XFILE'])
         self.web.click_btn(xpath="//select[@id='receivingPlant']")
         self.web.selectkey(xpath="//select[@id='receivingPlant']",param=data['ABLAD'],option='vtext')
+        self.web.click_btn(xpath="//span[@id='select2-searchConsignee-container']")
+        self.web.send_keys(xpath="//input[@class='select2-search__field']",param=data["SPNAM"]) 
+        self.web.click_btn(xpath="//ul/li[contains(text(),'"+data['SPNAM']+"')]")
         self.web.click_btn(xpath="//select[@id='paymentAccountNo']")    
-        self.web.selectkey(xpath="//select[@id='paymentAccountNo']",param=1, option='index')        
+        self.web.selectkey(xpath="//select[@id='paymentAccountNo']",param=1,option='index')        
         if not data['test']:
-            self.web.click_btn("//input[@id='submitInvoice']")
+            self.web.click_btn(xpath="//input[@value='Submit Invoice']")
+            message = self.web.read_text(xpath="//div/b[contains(text(),'Bill details successfully submitted')]") 
+            return self.web.get_docno(param=message)
 
     def prnt_inv(self,data):
         wait = WebDriverWait(self.con, 10)
