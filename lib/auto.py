@@ -36,7 +36,16 @@ class web:
 
     def selectkey(self,*args, **kwargs):
         combob = Select(self.con.find_element(By.XPATH,kwargs['xpath']))
-        combob.select_by_visible_text(kwargs['param'])
+        if 'option' in kwargs:
+            match kwargs['option']:     
+                case "value":
+                    combob.select_by_value(kwargs['param'])
+                case "index":
+                    combob.select_by_index(kwargs['param'])
+                case "vtext":
+                    combob.select_by_visible_text(kwargs['param'])
+        else:
+            combob.select_by_visible_text(kwargs['param'])        
 
     def get_colno(self,*args, **kwargs):
         table = self.con.find_element(By.XPATH,kwargs['xpath'])

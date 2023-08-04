@@ -31,6 +31,7 @@ match url_code:
         data["test"] = pswd['HPCL']['tst']
         inst = hpcl(cweb)
         inst.do_login(pswd['HPCL'])
+        data['INVTY'] = 'EI'
         inst.upld_inv(data)
         inst.prnt_inv(data)
         

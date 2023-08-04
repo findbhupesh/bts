@@ -22,7 +22,8 @@ class bpcl:
     def upld_inv(self,data):
         wait = WebDriverWait(self.con, 10)
         self.web.click_btn(xpath="//div[text()='My Applications']")
-        self.web.click_btn(xpath="//a[text()='Digital Invoice Management']")
+        time.sleep(2)
+        self.web.click_btn(xpath="//a[contains(text(),'Digital Invoice Management')]")
         wait.until(EC.number_of_windows_to_be(2))
         wndw = self.con.window_handles[1]
         self.con.switch_to.window(wndw)
@@ -62,23 +63,23 @@ class hpcl:
 
     def do_login(self,data):
         self.con.get(data['url'])
-        self.web.click_btn(xpath="//a[text()='Please click here to Login']")
+        self.web.click_btn(xpath="//a[contains(text(),'click here to Login')]")
         self.web.send_keys(xpath="//input[@id='empno']",param=data['usr'])
         self.web.send_keys(xpath="//input[@id='password']",param=data['pwd'])
         self.web.click_btn(xpath="//button[@id='submitBtn']")
 
     def upld_inv(self,data):
         self.con.get("https://vss.hpcl.co.in/vss/billsubmission")
-        self.web.send_keys(xpath="input[@id='poNumberSearch']",param=data['BSTNK'][:8])
-        self.web.selectkey(xpath="//select[@id='typeOfInvoice']",param=data["INVTY"])
+        self.web.send_keys(xpath="//input[@id='poNumberSearch']",param=data['BSTNK'][:10])
+        time.sleep(2)
+        self.web.click_btn(xpath="//ul[@id='ui-id-1']/li[1]/div[1]")
+        time.sleep(2)
+        self.web.selectkey(xpath="//select[@id='typeOfInvoice']",param=data["INVTY"],option='value')
         self.web.send_keys(xpath="//input[@id='fileupload']",param=data['XFILE'])
-        self.web.selectkey(xpath="//select[@id='vendorGstin']",param=data["GSTIN"])
-        self.web.send_keys(xpath="input[@id='invoiceNumber']",param=data['BSTNK'][:8])
-        self.web.set_caldt(xpath="//input[@id='invoiceDate']",param=data['FKDAT'], ctype = "4")
-        self.web.send_keys(xpath="//input[@id='invoiceAmount']",param=data['WRBTR'])
-        self.web.selectkey(xpath="//select[@id='receivingPlant']",param=data['ABLAD'])
-        self.web.selectkey(xpath="//select[@id='processingPlant']",param=data['ABLAD'])
-        self.web.selectkey(xpath="//select[@id='paymentAccountNo']",param=data['BANKN'])        
+        self.web.click_btn(xpath="//select[@id='receivingPlant']")
+        self.web.selectkey(xpath="//select[@id='receivingPlant']",param=data['ABLAD'],option='vtext')
+        self.web.click_btn(xpath="//select[@id='paymentAccountNo']")    
+        self.web.selectkey(xpath="//select[@id='paymentAccountNo']",param=1, option='index')        
         if not data['test']:
             self.web.click_btn("//input[@id='submitInvoice']")
 
