@@ -146,7 +146,7 @@ class iocl():
         if not data['test']:
             self.web.click_btn(xpath="//input[@id='submitbutton']")
             message = self.web.read_text(xpath="//span[contains(text(),'Details saved successfully')]") 
-            self.web.click_btn(xpath="//span[@xpath='1' and text()='Okay']")
+            self.web.click_btn(xpath="//span[text()='Okay']")
             return self.web.get_docno(param=message)
     
     def bill_rep(self,data):
