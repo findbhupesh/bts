@@ -48,5 +48,5 @@ match url_code:
         data['BTSNO'] = btsno
         inst.prnt_inv(data)
 
-time.sleep(20)
-cweb.con.quit()
+#time.sleep(20)
+#cweb.con.quit()
