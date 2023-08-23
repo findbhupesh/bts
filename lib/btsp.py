@@ -2,6 +2,7 @@ import sys,time,calendar,logging as log
 from datetime                           import datetime,date,timedelta
 from selenium.webdriver.support.wait    import WebDriverWait
 from selenium.webdriver.support         import expected_conditions as EC
+from selenium.webdriver.common.alert    import Alert
 
 log.basicConfig(filename='out/logging.log', encoding='utf-8', level=log.DEBUG, format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p')
 class bpcl:
@@ -84,7 +85,8 @@ class hpcl:
         self.web.click_btn(xpath="//select[@id='paymentAccountNo']")    
         self.web.selectkey(xpath="//select[@id='paymentAccountNo']",param=1,option='index')        
         if not data['test']:
-            self.web.click_btn(xpath="//input[@value='Submit Invoice']")
+            self.web.click_btn(xpath="//input[@value='Submit Invoice']")    
+            Alert(self.con).accept()            
             message = self.web.read_text(xpath="//div/b[contains(text(),'Bill details successfully submitted')]") 
             return self.web.get_docno(param=message)
 
